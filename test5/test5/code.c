@@ -11,6 +11,7 @@ struct ListNode {
 	struct ListNode *next;
 };
 
+//方案一
 struct ListNode* reverseList(struct ListNode* head) {
 	if (!head) {		//处理空链表
 		return head;
@@ -24,4 +25,21 @@ struct ListNode* reverseList(struct ListNode* head) {
 		newHead = p;
 	}
 	return newHead;
+}
+
+
+//方案二
+struct ListNode* reverseList(struct ListNode* head) {
+	if (!head || !head->next)
+		return head;
+	struct ListNode *pre = head, *cur = head->next, *next;
+	pre->next = NULL;
+	while (cur)
+	{
+		next = cur->next;
+		cur->next = pre;
+		pre = cur;
+		cur = next;
+	}
+	return pre;
 }
