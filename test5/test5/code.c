@@ -13,7 +13,7 @@ struct ListNode {
 
 //方案一
 struct ListNode* reverseList(struct ListNode* head) {
-	if (!head) {		//处理空链表
+	if (!head || !head->next) {		//处理空链表
 		return head;
 	}
 	struct ListNode* p = head, *newHead = head;
@@ -27,19 +27,3 @@ struct ListNode* reverseList(struct ListNode* head) {
 	return newHead;
 }
 
-
-//方案二
-struct ListNode* reverseList(struct ListNode* head) {
-	if (!head || !head->next)
-		return head;
-	struct ListNode *pre = head, *cur = head->next, *next;
-	pre->next = NULL;
-	while (cur)
-	{
-		next = cur->next;
-		cur->next = pre;
-		pre = cur;
-		cur = next;
-	}
-	return pre;
-}
