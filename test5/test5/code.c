@@ -12,6 +12,7 @@ struct ListNode {
 };
 
 
+//方案一
 struct ListNode* reverseList(struct ListNode* head) {
 	if (!head || !head->next) {		//处理空链表及单结点链表
 		return head;
@@ -26,5 +27,21 @@ struct ListNode* reverseList(struct ListNode* head) {
 		pCur = pNext;
 	}
 	return pPre;
+}
+
+
+//方案二
+//原链表结点< 头插 >到新链表中
+struct ListNode* reverseList(struct ListNode* head) {
+	struct ListNode* pNewHead = NULL;
+	struct ListNode* pCur = head;
+
+	while (pCur) {		//遍历
+		head = head->next;		//记录下个节点
+		pCur->next = pNewHead;
+		pNewHead = pCur;
+		pCur = head;
+	}
+	return pNewHead;
 }
 
