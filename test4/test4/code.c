@@ -19,6 +19,7 @@ struct ps {
 	struct ListNode node;
 };
  
+
 //·½°¸Ò»
 struct ListNode* removeElements(struct ListNode* head, int val) {
 	if (head == NULL) {
