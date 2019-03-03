@@ -28,6 +28,7 @@ int IsCross(ListNode *headA, ListNode *headB) {
 
 
 
+
 //正式逻辑
 //返回相交结点函数
 ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
