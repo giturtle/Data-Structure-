@@ -3,24 +3,19 @@
 #include <stdlib.h>
 
 
-//É¾³ıÁ´±íÖĞµÈÓÚ¸ø¶¨Öµ val µÄËùÓĞ½Úµã¡£
-//Ê¾Àı :
-//ÊäÈë: 1->2->6->3->4->5->6, val = 6
-//Êä³ö: 1->2->3->4->5
+//åˆ é™¤é“¾è¡¨ä¸­ç­‰äºç»™å®šå€¼ val çš„æ‰€æœ‰èŠ‚ç‚¹ã€‚
+//ç¤ºä¾‹ :
+//è¾“å…¥: 1->2->6->3->4->5->6, val = 6
+//è¾“å‡º: 1->2->3->4->5
 
 struct ListNode {
 	int val;
 	struct ListNode *next;
 };
-struct ps {
-	int capacity;
-	int data;
-	int size;
-	struct ListNode node;
-};
+
  
 
-//·½°¸Ò»
+//æ–¹æ¡ˆä¸€
 struct ListNode* removeElements(struct ListNode* head, int val) {
 	if (head == NULL) {
 		return NULL;
@@ -46,31 +41,31 @@ struct ListNode* removeElements(struct ListNode* head, int val) {
 }
 
 
-//·½°¸¶ş
-//½èÖú¸¨Öú¿Õ¼äÉ¸Ñ¡£¬×îºó°á»ØÔ­Á´±í£¬ĞŞ¸ÄÓĞĞ§¸öÊı¼´¿É
+//æ–¹æ¡ˆäºŒ
+//å€ŸåŠ©è¾…åŠ©ç©ºé—´ç­›é€‰ï¼Œæœ€åæ¬å›åŸé“¾è¡¨ï¼Œä¿®æ”¹æœ‰æ•ˆä¸ªæ•°å³å¯
 struct ListNode* removeElements(struct ListNode* head, int data) {
-	//1. ÉêÇë¿Õ¼ä
+	//1. ç”³è¯·ç©ºé—´
 	int *pData = (int*)malloc(sizeof(int)*head->val);
 	if (pData == NULL) {
 		exit(0);
 	}
-	//2. ·ÇdataµÄÔªËØ¿½±´µ½ĞÂ¿Õ¼ä
+	//2. édataçš„å…ƒç´ æ‹·è´åˆ°æ–°ç©ºé—´
 	int count = 0;
 	for (int i = 0; i < head->size; ++i) {
 		if (head->val != data) {
 			pData[count++] = head->val[i];
 		}
 	}
-	//3. °ÑĞÂ¿Õ¼äÄÚÈİ·Å»ØÔ­¿Õ¼ä
+	//3. æŠŠæ–°ç©ºé—´å†…å®¹æ”¾å›åŸç©ºé—´
 	memcpy(head->val, pData, sizeof(int)*count);
 	head->size = count;
-	//4. ÊÍ·ÅÉêÇëµÄÄÚ´æ
+	//4. é‡Šæ”¾ç”³è¯·çš„å†…å­˜
 	free(pData);
 }
 
 
-//·½°¸Èı
-//±éÀúÒ»±é£¬Óöµ½´ËÖµ²»´¦Àí£¬Óöµ½·ÇÖµÏòÇ°°áÒÆ(²»Í¬ÏÂ±ê°áÒÆ²½¾à²»Í¬)
+//æ–¹æ¡ˆä¸‰
+//éå†ä¸€éï¼Œé‡åˆ°æ­¤å€¼ä¸å¤„ç†ï¼Œé‡åˆ°éå€¼å‘å‰æ¬ç§»(ä¸åŒä¸‹æ ‡æ¬ç§»æ­¥è·ä¸åŒ)
 struct ListNode* removeElements(struct ListNode* head, int data) {
 	int count = 0;
 	for (int i = 0; i < head->size; ++i) {
