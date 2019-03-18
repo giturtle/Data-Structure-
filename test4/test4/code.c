@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 
-//删除链表中等于给定值 val 的所有节点。
+//删除链表中等于给定值 val 的所有结点。
 //示例 :
 //输入: 1->2->6->3->4->5->6, val = 6
 //输出: 1->2->3->4->5
@@ -14,8 +14,6 @@ struct ListNode {
 };
 
  
-
-//方案一
 struct ListNode* removeElements(struct ListNode* head, int val) {
 	if (head == NULL) {
 		return NULL;
@@ -41,40 +39,51 @@ struct ListNode* removeElements(struct ListNode* head, int val) {
 }
 
 
-//方案二
+
+
+//删除顺序表中等于给定值 val 的所有结点。
+
+typedef int SLDataType;
+typedef struct SeqList
+{
+	SLDataType* array;  // 指向动态开辟的数组
+	size_t size;       // 有效数据个数
+	size_t capacity;   // 容量空间的大小
+}SeqList;
+
+//方案一
 //借助辅助空间筛选，最后搬回原链表，修改有效个数即可
-struct ListNode* removeElements(struct ListNode* head, int data) {
+struct SeqList* removeElements(struct SeqList* psl, SLDataType data) {
 	//1. 申请空间
-	int *pData = (int*)malloc(sizeof(int)*head->val);
+	int *pData = (int*)malloc(sizeof(int)*psl->size);
 	if (pData == NULL) {
 		exit(0);
 	}
 	//2. 非data的元素拷贝到新空间
 	int count = 0;
-	for (int i = 0; i < head->size; ++i) {
-		if (head->val != data) {
-			pData[count++] = head->val[i];
+	for (int i = 0; i < psl->size; ++i) {
+		if (psl->array[i] != data) {
+			pData[count++] = psl->array[i];
 		}
 	}
 	//3. 把新空间内容放回原空间
-	memcpy(head->val, pData, sizeof(int)*count);
-	head->size = count;
+	memcpy(psl->array, pData, sizeof(SLDataType)*count);
+	psl->size = count;
 	//4. 释放申请的内存
 	free(pData);
 }
 
 
-//方案三
+
+//方案二
 //遍历一遍，遇到此值不处理，遇到非值向前搬移(不同下标搬移步距不同)
-struct ListNode* removeElements(struct ListNode* head, int data) {
-	int count = 0;
-	for (int i = 0; i < head->size; ++i) {
-		if (head->val[i] != data) {
-			head->pData[i - count] = head->pData[i];
-		}
-		else {
-			count++;
+struct SeqList* removeElements(struct SeqList* psl, SLDataType data{
+	int j = 0;
+	for (int i = 0; i < psl->size; ++i) {
+		if (psl->array[i] != data) {
+			psl->array[j++] = psl->array[i];
 		}
 	}
-	head->size -= count;
+	psl->size = j;
 }
+
