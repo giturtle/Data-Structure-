@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-
 //数据类型
 typedef int SDataType;
 
