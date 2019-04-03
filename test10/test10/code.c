@@ -1,40 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//±àÐ´´úÂë£¬ÒÔ¸ø¶¨ÖµxÎª»ù×¼½«Á´±í·Ö¸î³ÉÁ½²¿·Ö£¬ËùÓÐÐ¡ÓÚxµÄ½áµãÅÅÔÚ´óÓÚ»òµÈÓÚxµÄ½áµãÖ®Ç°
+//ç¼–å†™ä»£ç ï¼Œä»¥ç»™å®šå€¼xä¸ºåŸºå‡†å°†é“¾è¡¨åˆ†å‰²æˆä¸¤éƒ¨åˆ†ï¼Œæ‰€æœ‰å°äºŽxçš„ç»“ç‚¹æŽ’åœ¨å¤§äºŽæˆ–ç­‰äºŽxçš„ç»“ç‚¹ä¹‹å‰
 //			6 --> 1 --> 8 --> 7 --> 2 --> 3 --> NULL	(x = 5)
-//[´¦Àíºó]	1 --> 2 --> 3 --> 6 --> 8 --> 7 --> NULL
-//¸ø¶¨Ò»¸öÁ´±íµÄÍ·Ö¸Õë ListNode* pHead£¬Çë·µ»ØÖØÐÂÅÅÁÐºóµÄÁ´±íµÄÍ·Ö¸Õë¡£×¢Òâ£º·Ö¸îÒÔºó±£³ÖÔ­À´µÄÊý¾ÝË³Ðò²»±ä¡£
+//[å¤„ç†åŽ]	1 --> 2 --> 3 --> 6 --> 8 --> 7 --> NULL
+//ç»™å®šä¸€ä¸ªé“¾è¡¨çš„å¤´æŒ‡é’ˆ ListNode* pHeadï¼Œè¯·è¿”å›žé‡æ–°æŽ’åˆ—åŽçš„é“¾è¡¨çš„å¤´æŒ‡é’ˆã€‚æ³¨æ„ï¼šåˆ†å‰²ä»¥åŽä¿æŒåŽŸæ¥çš„æ•°æ®é¡ºåºä¸å˜ã€‚
 
-//Ë¼Â·£º×¼±¸Á½¸ö´øÍ·½áµãµÄÐÂÁ´±í£¨²»´øÍ·½áµãµÄÒ²¿ÉÒÔ£¬µ«ÊÇÐèÒª¶îÍâ±È½ÏÅÐ¶¨Í·½áµãÓëxÖµ£©£¬´óÓÚ x ÖµÁ´½ÓÔÚnode1Ö®ºó£¬Ð¡ÓÚ x ÖµÁ´½ÓÔÚnode2Ö®ºó£¬Ö®ºóºÏ²¢Á½Á´±í
+//æ€è·¯ï¼šå‡†å¤‡ä¸¤ä¸ªå¸¦å¤´ç»“ç‚¹çš„æ–°é“¾è¡¨ï¼ˆä¸å¸¦å¤´ç»“ç‚¹çš„ä¹Ÿå¯ä»¥ï¼Œä½†æ˜¯éœ€è¦é¢å¤–æ¯”è¾ƒåˆ¤å®šå¤´ç»“ç‚¹ä¸Žxå€¼ï¼‰ï¼Œå¤§äºŽ x å€¼é“¾æŽ¥åœ¨node1ä¹‹åŽï¼Œå°äºŽ x å€¼é“¾æŽ¥åœ¨node2ä¹‹åŽï¼Œä¹‹åŽåˆå¹¶ä¸¤é“¾è¡¨
 struct ListNode {
 	int val;
 	struct ListNode *next;
 }; 
 
-struct ListNode* partition(struct ListNode* pHead, int x) {
-	if (pHead == NULL) {
-		return NULL;
-	}
-	struct ListNode LessHead;	//Í·½áµã
-	struct ListNode GreatHead;
-	struct ListNode *pLessTail = &LessHead;
-	struct ListNode *pGreatTail = &GreatHead;
-
-	struct ListNode *pCur = pHead;
-	//Ìî³äÁ½¸öÐÂÁ´±í
-	while (pCur) {
-		if (pCur->val < x) {
-			pLessTail->next = pCur;
-			pLessTail = pLessTail->next;
-		}
-		else {
-			pGreatTail->next = pCur;
-			pGreatTail = pGreatTail->next;
-		}
-		pCur = pCur->next;
-	}//Ô­Á´±í½áµã´¦ÀíÍêµ½´ïNULL,Ìø³öÑ­»·
-	pLessTail->next = GreatHead.next;		//Ð¡Á´±íµÄÎ²½áµãÐèÒªÁ´½Ó´óÁ´±íÊ×½ÚµãÖ®ºóµÄ½áµã(´óÁ´±íÊ×½áµãÎÒÃÇ³õÊ¼ÉèÖÃÎÞÐ§,Ö»ÊÇ½èÖú)
-	pGreatTail->next = NULL;
-	return LessHead.next;
+ListNode* partition(ListNode* pHead, int x) {
+        // write code here
+        if (pHead == NULL) {
+	    	return NULL;
+	    }
+        struct ListNode *smaller = (struct ListNode *)malloc(sizeof(ListNode)*x);
+        struct ListNode *bigger = (struct ListNode *)malloc(sizeof(ListNode)*x);
+        struct ListNode *cur = pHead;
+        struct ListNode *smalltail = smaller;
+        struct ListNode *bigtail = bigger;
+        while(cur){
+            if(cur->val < x){
+                smalltail->next = cur;
+                smalltail = cur;
+            }else{
+                bigtail->next = cur;
+                bigtail = cur;
+            }
+            cur = cur->next;
+        }
+        smalltail->next = bigger->next;
+        bigtail->next = NULL;
+        return smaller->next;
 }
