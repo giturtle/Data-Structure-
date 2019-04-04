@@ -1,0 +1,21 @@
+
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+};
+
+
+//判断两二叉树是否互为镜像			--->可以用于判断二叉树是否对称
+
+bool isMirror(Node *p,Node *q){
+	if(p == NULL && q == NULL){
+		return true;
+	}
+	if(p == NULL || q == NULL){
+		return false;
+	}
+	return p->val == q->val
+		&& isMirror(p->left,q->right);
+		&& isMirror(p->right,q->left);
+}
