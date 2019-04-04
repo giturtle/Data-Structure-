@@ -8,10 +8,10 @@ struct TreeNode {
 
 int *array;
 int size;
-//array + size = Ë³Ðò±í
+//array + size = Ã‹Â³ÃÃ²Â±Ã­
 
 void preorder(struct TreeNode *root) {
-	if (root != NULL) {       //Ð´³É(!root)²»¿ÉÒÔ
+	if (root != NULL) {       //ÃÂ´Â³Ã‰(!root)Â²Â»Â¿Ã‰Ã’Ã”
 		array[size++] = root->val;
 		preorder(root->left);
 		preorder(root->right);
