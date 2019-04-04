@@ -1,0 +1,36 @@
+
+
+struct TreeNode {
+  int val;
+  struct TreeNode *left;
+  struct TreeNode *right;
+};
+
+
+bool isSame(struct TreeNode *p,struct TreeNode *q){
+    if(p == NULL && q == NULL){
+        return true;
+    }
+    if(p == NULL || q == NULL){
+        return false;
+    }
+    return p->val == q->val
+        && isSame(p->left,q->left)
+        && isSame(p->right,q->right);
+}
+
+
+bool isSubtree(struct TreeNode* s, struct TreeNode* t) {
+    if(s == NULL){
+        return false;
+    }
+    
+    if(isSame(s,t)) {
+        return true;
+    }
+    if(isSubtree(s->left,t) == true){
+        return true;
+    }
+    return isSubtree(s->right,t);      //也可以写成if语句，但是如果上面不满足，他就成为了决定性因素
+}
+
