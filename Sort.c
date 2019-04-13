@@ -217,3 +217,74 @@ void BubbleSort2(int array[], int size) {
 		}
 	}
 }
+
+
+
+
+
+
+
+/*test*/
+
+
+void Test() {
+	int array[] = { 3, 9, 1, 4, 7, 5, 2, 8, 0, 10, 9 };
+	int size = sizeof(array) / sizeof(int);
+
+	PrintArray(array, size);
+	BubbleSort2(array, size);
+	PrintArray(array, size);
+}
+
+
+#include "高精度计时.h"
+
+/*
+完全有序
+完全逆序
+完全相等
+完全随机
+*/
+
+int * CreateArraySorted(int size) {
+	int *array = (int *)malloc(sizeof(int)* size);
+	for (int i = 0; i < size; i++) {
+		array[i] = rand() % size;
+	}
+
+	ShellSort(array, size);
+
+	return array;
+}
+
+int * CreateArraySortedReverse(int size) {
+	int *array = (int *)malloc(sizeof(int)* size);
+	for (int i = 0; i < size; i++) {
+		array[i] = rand() % size;
+	}
+
+	HeapSort(array, size);
+
+	return array;
+}
+
+int * CreateArrayEqual(int size) {
+	int key = rand() % size;
+	int *array = (int *)malloc(sizeof(int)* size);
+	for (int i = 0; i < size; i++) {
+		array[i] = key;
+	}
+
+	return array;
+}
+
+int * CreateArrayRandom(int size) {
+	int *array = (int *)malloc(sizeof(int)* size);
+	for (int i = 0; i < size; i++) {
+		array[i] = rand() % size;
+	}
+
+	return array;
+}
+
+
