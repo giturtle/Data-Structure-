@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 enum Colour{
@@ -25,16 +23,111 @@ struct RBtreeNode{
 	{}
 };
 
+template<class T, class Ptr, class Ref>
+struct __RBTreeIterator{
+	typedef RBtreeNode<T> Node;
+	typedef __RBTreeIterator<T, Ptr, Ref> Self;
+
+	Node* _node;
+
+	__RBTreeIterator(Node* node)
+		:_node(node)
+	{}
+
+	Ref operator*(){
+		return _node->_val;
+	}
+
+	//Ptr operator->()
+	//{
+	//	return &_node->_val;
+	//}
+
+	Ptr operator->(){
+		return &(operator*());
+	}
+
+	// ++it;
+	Self& operator++(){
+		if (_node->_right != nullptr){
+			_node = _node->_right;
+			while (_node->_left != nullptr){
+				_node = _node->_left;
+			}
+		}
+		else{
+			Node* parent = _node->_parent;
+			while (parent != nullptr && _node == parent->_right){
+				_node = parent;
+				parent = _node->_parent;
+			}
+
+			_node = parent;
+		}
+		return *this;
+	}
+
+	Self operator++(int){
+		Self tmp(*this);
+		++(*this);
+		return tmp;
+	}
+
+	Self& operator--();
+	Self operator--(int);
+
+	bool operator != (const Self& s) const{
+		return _node != s._node;
+	}
+
+	bool operator == (const Self& s) const;
+
+};
+
 template<class K, class T, class KeyOfValue>
 class RBTree{
 	typedef RBtreeNode<T> Node;
 public:
-	bool Insert(const T& val){
+	typedef __RBTreeIterator<T, T*, T&> iterator;
+	typedef __RBTreeIterator<T, const T*, const T&> const_iterator;
+
+	RBTree() = default;
+	// 拷贝构造 + operator=
+	// 析构函数
+
+	iterator begin(){
+		Node* cur = _root;
+		while (cur && cur->_left)
+		{
+			cur = cur->_left;
+		}
+
+		return iterator(cur);
+	}
+
+	iterator end(){
+		return iterator(nullptr);
+	}
+
+	const_iterator begin() const{
+		Node* cur = _root;
+		while (cur && cur->_left){
+			cur = cur->_left;
+		}
+
+		return const_iterator(cur);
+	}
+
+	const_iterator end() const{
+		return const_iterator(nullptr);
+	}
+
+	pair<iterator, bool> Insert(const T& val){
 		// 插入节点
 		if (_root == nullptr){
 			_root = new Node(val);
 			_root->_col = BLACK;
-			return true;
+			return make_pair(iterator(_root), true);
 		}
 
 		KeyOfValue kov;
@@ -50,11 +143,12 @@ public:
 				cur = cur->_left;
 			}
 			else{
-				return false;
+				return make_pair(iterator(cur), false);
 			}
 		}
 
 		cur = new Node(val);
+		Node* newnode = cur;
 		cur->_col = RED;
 		if (kov(parent->_val) < kov(val)){
 			parent->_right = cur;
@@ -117,7 +211,7 @@ public:
 
 		_root->_col = BLACK;
 
-		return true;
+		return make_pair(iterator(newnode), true);
 	}
 
 	void RotateL(Node* parent){
@@ -174,7 +268,26 @@ public:
 
 			subL->_parent = pNode;
 		}
+	}
 
+
+
+	iterator Find(const K& k){
+		Node* cur = _root;
+		while (cur){
+			KeyOfValue kov;
+			if (kov(cur->_val) < k){
+				cur = cur->_right;
+			}
+			else if (kov(cur->_val) > k){
+				cur = cur->_left;
+			}
+			else{
+				return iterator(cur);
+			}
+		}
+
+		return end();
 	}
 
 	bool IsValidRBTree(){
